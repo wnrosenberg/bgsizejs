@@ -30,12 +30,21 @@ $(function(){
   // Set up handlers for buttons.
   $("#css_cover").click(function(){   applyBgSizeCSS("cover",  $c); });
   $("#css_contain").click(function(){ applyBgSizeCSS("contain",$c); });
-  $("#js_cover").click(function(){   calculateBgSize("cover",  $c); });
-  $("#js_contain").click(function(){ calculateBgSize("contain",$c); });
-  $("#js_40vw").click(function(){    calculateBgSize("40vw",   $c); });
-  $("#js_66vh").click(function(){    calculateBgSize("66vh",   $c); });
-  $("#js_600px").click(function(){   calculateBgSize("600px",  $c); });
-  $("#js_original, #css_convert").click(function(){ calculateBgSize( bo ,    $c); });
+  $(".button-group[data-action=calculate] button").click(function(){
+    var $this = $(this), unit = "", val = $this.data('value'),
+        to_unit = $this.parent('.button-group').data("units");
+    switch($this.data('unit')) {
+      case "keyword":                       // no units for keywords
+        if (val == 'original') val = bo;      // original uses var bo
+        break;
+      case "percent": unit = "%";           // use percent sign as unit 
+      default: unit=(unit?unit:$this.data('unit')); // use data as unit
+        val += unit;                        // append unit to value
+    } console.log(val + ' to ' + to_unit);
+    // Call the method!
+    calculateBgSize( val, $c, {to:to_unit} );
+  });
+  $("#css_convert").click(function(){ calculateBgSize( bo ,    $c); });
   $("#css_clear").click(function(){   applyBgSizeCSS("",       $c); });
   $("#css_reset").click(function(){    applyBgSizeCSS( bo ,    $c); });
 

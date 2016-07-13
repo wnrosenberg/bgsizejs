@@ -5,55 +5,52 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>BG TEST</title>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-  <style type="text/css">
-    * { box-sizing: border-box; }
-    #main {
-      position: relative;
-    }
-    .bgc { 
-      margin: 20px auto 0;
-      border: 1px solid #000;
-      background: url('//placehold.it/250x130');
-      background-repeat: no-repeat;
-      background-position: 50% 50%;
-/*      background-size: cover;*/
-      width: 666px;
-      height: 444px;
-    }
-    .buttons { margin: 0px auto; width: 500px; font-size: 16px; font-family:'Open Sans',Arial,sans-serif; text-align: center; border: 1px solid #ddd; padding: 10px; }
-    .buttons button { font-size: 14px; }
-    .buttons span { color: #999; font-style: italic; }
-  </style>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
 
 <div id="main">
   <div class="bgc"></div>
 
-  <div class="buttons">
+  <div class="options">
     Assign CSS Properties:<br />
     <button id="css_cover">Cover</button>
     <button id="css_contain">Contain</button>
   </div>
-  <div class="buttons">
-    JS: Calculate as percentage of container:<br />
-    <button data-group="percent" id="js_original">Original</button>
-    <button data-group="percent" id="js_cover">Cover</button>
-    <button data-group="percent" id="js_contain">Contain</button> 
-    <button data-group="percent" id="js_40vw">40vw</button>
-    <button data-group="percent" id="js_66vh">66vh</button>
-    <button data-group="percent" id="js_600px">600px</button>
+  <div class="options">
+    JS: Calculate as a pixel value<br />
+    <div class="button-group" data-action="calculate" data-units="px">
+      <button data-unit="keyword" data-value="original">Original</button>
+      <button data-unit="keyword" data-value="cover">Cover</button>
+      <button data-unit="keyword" data-value="contain">Contain</button>
+      <button data-unit="vw"      data-value="40">40vw</button>
+      <button data-unit="vh"      data-value="66">66vh</button>
+      <button data-unit="px"      data-value="600">600px</button>
+      <button data-unit="percent" data-value="200">200%</button>
+    </div>
   </div>
-  <div class="buttons">
+  <div class="options">
+    JS: Calculate as percentage (of container)<br />
+    <div class="button-group" data-action="calculate" data-units="percent">
+      <button data-unit="keyword" data-value="original">Original</button>
+      <button data-unit="keyword" data-value="cover">Cover</button>
+      <button data-unit="keyword" data-value="contain">Contain</button>
+      <button data-unit="vw"      data-value="40">40vw</button>
+      <button data-unit="vh"      data-value="66">66vh</button>
+      <button data-unit="px"      data-value="600">600px</button>
+      <button data-unit="percent" data-value="200">200%</button>
+    </div>
+  </div>
+  <div class="options">
     Original Value:
       <input type="text" id="bgsize_orig"><br />
-    Current Value:
+    Current(ly Applied) Value:
       <input type="text" id="bgsize_curr">
   </div>
-  <div class="buttons">
+  <div class="options">
     Convert Original to Calculated: <button id="css_convert">Convert</button>
   </div>
-  <div class="buttons">
+  <div class="options">
     Reset CSS Properties:<br />
     <button id="css_clear">Clear Inline CSS</button> 
     <button id="css_reset">Use Original Value</button> 

@@ -1,3 +1,18 @@
+// roundnth() - Round a number to the nth place.
+// @param float num the number to round
+// @param int places the number of decimal places to include
+function roundnth(num, places) {
+  var base = Math.pow(10,places),
+      parsed = parseFloat(num),
+      unit = "", result = "";
+  if (num != parsed) { // a unit is included in num, so strip b4 calc
+    unit = (num + "").replace((parsed + ""),"");
+  }
+  result = Math.round(parsed * (base)) / base;
+  if (unit) result += unit;
+  return result;
+}
+
 // getBgImgDims() - Get the dimensions of the element's background-image 
 // @param jquery element the jquery element whose background we're seeking
 // @return object an obj in the form {w: width, h: height} in pixels.
@@ -25,9 +40,9 @@ function applyBgSizeCSS(value, element, isCalculated) {
     console.log("resetting CSS to initial state...");
   } else {
     if ("undefined"!=typeof isCalculated && isCalculated == true) {
-      console.log("applying CSS from a calculated value (" + value + ")...");
+      console.log("applying calculated CSS (" + value + ")...");
     } else {
-      console.log("applying CSS from a static CSS value (" + value + ")...");
+      console.log("applying static CSS (" + value + ")...");
     }
   }
   return element.css({'background-size':value});
@@ -37,7 +52,12 @@ function applyBgSizeCSS(value, element, isCalculated) {
 // @param string value the value for the background-size CSS property
 // @param jquery element a jquery object representing the element which we're modifying
 // @return jquery a jquery object representing the element, after it has been modified.
-function calculateBgSize(value, element) {
+function calculateBgSize(value, element, options) {
+  var unit = "%"; if ("object"==typeof options) {
+    if ("undefined"!=typeof options.to) {
+      unit = (options.to == "percent" ? "%" : options.to);
+    }
+  }
   var calc = 0; if ("undefined"==typeof element) element = $(".bgc");
 
   /* DO SOME MATH! */
@@ -113,6 +133,16 @@ function calculateBgSize(value, element) {
       console.log("Instead of cover or contain, we got passed: ", value);
       calc = value;
       break;
+  }
+
+  // Check the units before we finish.
+  if (unit=="px") {
+    // We need to convert the percentage values to pixel values.
+    // We know that 100% of container = 1 * c.w
+    calc = (parseFloat(calc) / 100 * c.w) + "px";
+    calc = roundnth(calc, 4);
+  } else if (unit=="%") {
+    /* goggles */
   }
 
   return applyBgSizeCSS(calc, element, 1);
